@@ -1,5 +1,4 @@
 import 'package:range_type/range_type.dart';
-import 'package:range_type/src/bound/empty_bound.dart';
 
 abstract class Range<T> {
   Range({
@@ -91,11 +90,31 @@ abstract class Range<T> {
     final lowerUpperSignChanger = 1; //areLowerBound ? 1 : -1;
 
     if (bound1.isInfinite && bound2.isInfinite) {
-      return 0;
+      if (bound1.runtimeType == bound2.runtimeType) {
+        return 0;
+      } else if (bound1 is LowerBound && bound2 is UpperBound) {
+        return -1;
+      } else if (bound1 is UpperBound && bound2 is LowerBound) {
+        return 1;
+      } else {
+        return throw UnimplementedRangeException();
+      }
     } else if (bound1.isInfinite && bound2.isFinite) {
-      return -1 * lowerUpperSignChanger;
+      if (bound1 is LowerBound) {
+        return -1;
+      } else if (bound1 is UpperBound) {
+        return 1;
+      } else {
+        return throw UnimplementedRangeException();
+      }
     } else if (bound1.isFinite && bound2.isInfinite) {
-      return 1 * lowerUpperSignChanger;
+      if (bound2 is LowerBound) {
+        return 1;
+      } else if (bound2 is UpperBound) {
+        return -1;
+      } else {
+        return throw UnimplementedRangeException();
+      }
     } else {
       // both are finite
       if (bound1.type == bound2.type) {
