@@ -17,3 +17,7 @@ class ParseRangeException extends RangeException {
 class OperationRangeException extends RangeException {
   OperationRangeException([dynamic message]) : super(message);
 }
+
+class UnimplementedRangeException extends RangeException {
+  UnimplementedRangeException() : super('it was never meant to happen');
+}
