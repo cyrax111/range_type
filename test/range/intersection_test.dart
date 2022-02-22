@@ -16,37 +16,80 @@ void main() {
   );
 
   group('Intersection -', () {
-    test('Discrete', () {
-      expect(
-        IntRange.parse('[41,100)').intersection(IntRange.parse('[5,50)')),
-        IntRange.parse('[41,50)'),
-      );
-      expect(
-        IntRange.parse('[5,50)').intersection(IntRange.parse('[41,100)')),
-        IntRange.parse('[41,50)'),
-      );
+    group('Discrete -', () {});
 
+    test('all bounds are infinite', () {
       expect(
-        IntRange.parse('[5,50)').intersection(IntRange.parse('[16,45)')),
-        IntRange.parse('[16,45)'),
+        IntRange.parse('(,)').intersection(IntRange.parse('(,)')),
+        IntRange.parse('(,)'),
       );
       expect(
-        IntRange.parse('[16,45)').intersection(IntRange.parse('[5,50)')),
-        IntRange.parse('[16,45)'),
+        IntRange.parse('(,)').intersection(IntRange.parse('(,100)')),
+        IntRange.parse('(,100)'),
       );
-
       expect(
-        IntRange.parse('[5,50)').intersection(IntRange.parse('[55,100)')),
+        IntRange.parse('(,)').intersection(IntRange.parse('[5,)')),
+        IntRange.parse('[5,)'),
+      );
+      expect(
+        IntRange.parse('(,)').intersection(IntRange.parse('[5,100)')),
+        IntRange.parse('[5,100)'),
+      );
+      expect(
+        IntRange.parse('(,)').intersection(IntRange.parse('empty')),
         IntRange.parse('empty'),
       );
+    });
+
+    test('lower bound is infinite and upper bound is finite', () {
       expect(
-        IntRange.parse('[55,100)').intersection(IntRange.parse('[5,50)')),
+        IntRange.parse('(,100)').intersection(IntRange.parse('(,100)')),
+        IntRange.parse('(,100)'),
+      );
+      expect(
+        IntRange.parse('(,100)').intersection(IntRange.parse('[5,)')),
+        IntRange.parse('[5,100)'),
+      );
+      expect(
+        IntRange.parse('(,100)').intersection(IntRange.parse('[5,100)')),
+        IntRange.parse('[5,100)'),
+      );
+      expect(
+        IntRange.parse('(,100)').intersection(IntRange.parse('empty')),
         IntRange.parse('empty'),
       );
+    });
 
+    test('upper bound is infinite and lower bound is finite', () {
       expect(
-        IntRange.parse('[55,100)').intersection(IntRange.parse('[55,100)')),
-        IntRange.parse('[55,100)'),
+        IntRange.parse('[5,)').intersection(IntRange.parse('[5,)')),
+        IntRange.parse('[5,)'),
+      );
+      expect(
+        IntRange.parse('[5,)').intersection(IntRange.parse('[5,100)')),
+        IntRange.parse('[5,100)'),
+      );
+      expect(
+        IntRange.parse('[5,)').intersection(IntRange.parse('empty')),
+        IntRange.parse('empty'),
+      );
+    });
+
+    test('all bound are finite', () {
+      expect(
+        IntRange.parse('[5,100)').intersection(IntRange.parse('[5,100)')),
+        IntRange.parse('[5,100)'),
+      );
+      expect(
+        IntRange.parse('[5,100)').intersection(IntRange.parse('empty')),
+        IntRange.parse('empty'),
+      );
+    });
+
+    test('empty range', () {
+      expect(
+        IntRange.parse('empty').intersection(IntRange.parse('empty')),
+        IntRange.parse('empty'),
       );
     });
   });
