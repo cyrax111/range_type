@@ -1,5 +1,4 @@
-import 'bound.dart';
-import 'empty_bound.dart';
+import 'package:range_type/range_type.dart';
 
 class UpperBound<T> extends Bound<T> {
   const UpperBound({T? value, BoundType type = BoundType.inclusive})
@@ -30,5 +29,15 @@ class UpperBound<T> extends Bound<T> {
         assert(false, 'unknown bound type ($type)');
         return '';
     }
+  }
+
+  @override
+  Bound<T> invert() {
+    if (isExclusive) {
+      return UpperBound(value: value, type: BoundType.inclusive);
+    } else if (isInclusive) {
+      return UpperBound(value: value, type: BoundType.exclusive);
+    }
+    return this;
   }
 }

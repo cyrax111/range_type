@@ -20,4 +20,18 @@ class EmptyBound<T> implements LowerBound<T>, UpperBound<T> {
 
   @override
   final T? value = null;
+
+  @override
+  Bound<T> invert() {
+    throw UnimplementedError('one cannot invert empty bound');
+  }
+
+  @override
+  bool get isLower => false;
+
+  @override
+  bool get isNotEmpty => false;
+
+  @override
+  bool get isUpper => false;
 }
