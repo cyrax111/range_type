@@ -1,5 +1,7 @@
 import 'package:range_type/range_type.dart';
 
+import '../bound/empty_bound.dart';
+
 typedef Parser<T> = T Function(String strT);
 
 class RangeParser<T> {

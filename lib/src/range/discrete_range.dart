@@ -1,5 +1,7 @@
 import 'package:range_type/range_type.dart';
 
+import '../bound/empty_bound.dart';
+
 abstract class DiscreteRange<T> extends Range<T> {
   DiscreteRange({
     Bound<T>? lowerBound,

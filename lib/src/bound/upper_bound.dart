@@ -1,5 +1,7 @@
 import 'package:range_type/range_type.dart';
 
+import 'empty_bound.dart';
+
 class UpperBound<T> extends Bound<T> {
   const UpperBound({T? value, BoundType type = BoundType.inclusive})
       : super(value: value, type: type);

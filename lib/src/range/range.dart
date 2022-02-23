@@ -1,5 +1,7 @@
 import 'package:range_type/range_type.dart';
 
+import '../bound/empty_bound.dart';
+
 abstract class Range<T> {
   Range({
     Bound<T>? lowerBound,
