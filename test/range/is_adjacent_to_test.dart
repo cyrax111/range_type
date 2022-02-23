@@ -1,4 +1,4 @@
-import 'package:range_type/range_type.dart';
+import 'package:range_type/predefined_ranges.dart';
 import 'package:test/test.dart';
 
 void main() {

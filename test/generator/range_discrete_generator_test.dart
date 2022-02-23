@@ -1,4 +1,5 @@
-import 'package:range_type/range_type.dart';
+import 'package:range_type/predefined_ranges.dart';
+import 'package:range_type/range_generator.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
