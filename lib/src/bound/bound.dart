@@ -1,5 +1,7 @@
 import 'package:range_type/range_type.dart';
 
+import 'empty_bound.dart';
+
 enum BoundType {
   inclusive,
   exclusive,
