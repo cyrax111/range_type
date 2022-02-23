@@ -15,8 +15,8 @@ class ParseRangeException extends RangeException {
 }
 
 // TODO: maybe NeverRangeException
-class UnimplementedRangeException extends RangeException {
-  UnimplementedRangeException() : super('it was never meant to happen');
+class NonExistentCaseRangeException extends RangeException {
+  NonExistentCaseRangeException() : super('it was never meant to happen');
 }
 
 class OperationRangeException extends RangeException {

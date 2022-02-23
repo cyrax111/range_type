@@ -50,17 +50,18 @@ abstract class Range<T> {
     if (lowerBound is EmptyBound || upperBound is EmptyBound) {
       return true;
     }
-    if (lowerBound.isExclusive &&
-        upperBound.isExclusive &&
-        (comparator(upperBound.value!, lowerBound.value!) == 0)) {
-      return true;
-    } else if (lowerBound.isFinite &&
-        upperBound.isFinite &&
-        (comparator(upperBound.value!, lowerBound.value!) < 0)) {
-      return true;
-    }
+    // if (lowerBound.isExclusive &&
+    //     upperBound.isExclusive &&
+    //     (comparator(upperBound.value!, lowerBound.value!) == 0)) {
+    //   return true;
+    // } else if (lowerBound.isFinite &&
+    //     upperBound.isFinite &&
+    //     (comparator(upperBound.value!, lowerBound.value!) < 0)) {
+    //   return true;
+    // }
+    return _compareBounds(upperBound, lowerBound) <= 0;
 
-    return false;
+    // return false;
   }
 
   static const String emptyName = 'empty';
@@ -82,15 +83,6 @@ abstract class Range<T> {
 
   int _compareBounds(Bound<T> bound1, Bound<T> bound2) {
     assert(bound1 is! EmptyBound && bound2 is! EmptyBound);
-    //TODO: remove comments here
-
-    // assert(bound1 is LowerBound && bound2 is LowerBound ||
-    //     bound1 is UpperBound && bound2 is UpperBound);
-
-    // if(bound1.runtimeType == bound2.runtimeType)
-
-    final areLowerBound = bound1 is LowerBound;
-    final lowerUpperSignChanger = 1; //areLowerBound ? 1 : -1;
 
     if (bound1.isInfinite && bound2.isInfinite) {
       if (bound1.runtimeType == bound2.runtimeType) {
@@ -100,7 +92,7 @@ abstract class Range<T> {
       } else if (bound1 is UpperBound && bound2 is LowerBound) {
         return 1;
       } else {
-        return throw UnimplementedRangeException();
+        return throw NonExistentCaseRangeException();
       }
     } else if (bound1.isInfinite && bound2.isFinite) {
       if (bound1 is LowerBound) {
@@ -108,7 +100,7 @@ abstract class Range<T> {
       } else if (bound1 is UpperBound) {
         return 1;
       } else {
-        return throw UnimplementedRangeException();
+        return throw NonExistentCaseRangeException();
       }
     } else if (bound1.isFinite && bound2.isInfinite) {
       if (bound2 is LowerBound) {
@@ -116,22 +108,21 @@ abstract class Range<T> {
       } else if (bound2 is UpperBound) {
         return -1;
       } else {
-        return throw UnimplementedRangeException();
+        return throw NonExistentCaseRangeException();
       }
     } else {
       // both are finite
       if (bound1.type == bound2.type) {
-        return comparator(bound1.value!, bound2.value!) * lowerUpperSignChanger;
+        return comparator(bound1.value!, bound2.value!);
       } else {
         if (comparator(bound1.value!, bound2.value!) == 0) {
           if (bound1.isInclusive && bound2.isExclusive) {
-            return -1 * lowerUpperSignChanger;
+            return 1;
           } else {
-            return 1 * lowerUpperSignChanger;
+            return -1;
           }
         } else {
-          return comparator(bound1.value!, bound2.value!) *
-              lowerUpperSignChanger;
+          return comparator(bound1.value!, bound2.value!);
         }
       }
     }
@@ -191,8 +182,6 @@ abstract class Range<T> {
   }
 
   bool overlap(Range<T> range) => intersection(range).notEmpty;
-
-  // bool isAdjacentTo(Range<T> range);
 
   /// result of range union would not be contiguous
   /// +
@@ -305,45 +294,8 @@ abstract class Range<T> {
       return createRange(lowerBound: _lowerBound, upperBound: _upperBound);
     }
 
-    // assert(false, 'non-existent range case');
-    throw UnimplementedRangeException();
+    throw NonExistentCaseRangeException();
   }
-
-  // bool lessThan(Range<T> range) {
-  //   if (range.empty) {
-  //     return false;
-  //   } else if (empty) {
-  //     return true;
-  //   }
-  //   return _compareBounds(lowerBound, range.lowerBound) < 0;
-  // }
-
-  // bool lessThanOrEqual(Range<T> range) {
-  //   if (range.empty) {
-  //     return false;
-  //   } else if (empty) {
-  //     return true;
-  //   }
-  //   return _compareBounds(lowerBound, range.lowerBound) <= 0;
-  // }
-
-  // bool greaterThan(Range<T> range) {
-  //   if (empty) {
-  //     return false;
-  //   } else if (range.empty) {
-  //     return true;
-  //   }
-  //   return _compareBounds(lowerBound, range.lowerBound) > 0;
-  // }
-
-  // bool greaterThanOrEqual(Range<T> range) {
-  //   if (empty) {
-  //     return false;
-  //   } else if (range.empty) {
-  //     return true;
-  //   }
-  //   return _compareBounds(lowerBound, range.lowerBound) >= 0;
-  // }
 
   bool strictlyLeftOf(Range<T> range) {
     if (empty || range.empty) {
@@ -373,10 +325,22 @@ abstract class Range<T> {
     return _compareBounds(lowerBound, range.lowerBound) >= 0;
   }
 
-  // TODO: bool isAdjacentTo(Range<T> range) {
-  //   if (isDiscrete) {
-  //     return _isBoundsEqual(lowerBound, range.upperBound) ||
-  //         _isBoundsEqual(upperBound, range.lowerBound);
-  //   } else {}
-  // }
+  bool isAdjacentTo(Range<T> range) {
+    if (overlap(range)) {
+      return false;
+    }
+
+    if (upperBound.isFinite &&
+        range.lowerBound.isFinite &&
+        upperBound.value == range.lowerBound.value) {
+      return true;
+    }
+    if (lowerBound.isFinite &&
+        range.upperBound.isFinite &&
+        lowerBound.value == range.upperBound.value) {
+      return true;
+    }
+
+    return false;
+  }
 }

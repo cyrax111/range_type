@@ -1,5 +1,4 @@
 import 'package:range_type/range_type.dart';
-import 'package:range_type/src/bound/bound.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,6 +1,5 @@
 import 'package:range_type/range_type.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Intersection -', () {

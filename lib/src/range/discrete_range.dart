@@ -73,4 +73,13 @@ abstract class DiscreteRange<T> extends Range<T> {
   }
 
   T increase(T operand);
+
+  // @override
+  // bool isAdjacentTo(Range<T> range){
+  //     if (overlap(range)) {
+  //     return false;
+  //   }
+
+  //   // if(_isBoundsEqual(upperBound, range.lowerBound))
+  // }
 }
