@@ -236,6 +236,20 @@ void main() {
           );
         });
       });
+
+      test('[0,120) - [5,100)', () {
+        expect(
+          () => IntRange.parse('[0,120)').difference(IntRange.parse('[5,100)')),
+          throwsA(isA<ContiguousRangeException>()),
+        );
+      });
+
+      test('[5,100) - [0,120)', () {
+        expect(
+          IntRange.parse('[5,100)').difference(IntRange.parse('[0,120)')),
+          IntRange.empty(),
+        );
+      });
     });
   });
 }
