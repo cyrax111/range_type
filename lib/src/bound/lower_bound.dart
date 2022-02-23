@@ -40,12 +40,4 @@ class LowerBound<T> extends Bound<T> {
     }
     return this;
   }
-
-  /// Returns positive if [LowerBound] include the [value]
-  // bool contains({T? value, }) {
-  //   if (isInfinite) {
-  //     return true;
-  //   }
-  //   if()
-  // }
 }

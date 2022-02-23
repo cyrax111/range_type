@@ -1,5 +1,4 @@
 import 'package:range_type/range_type.dart';
-import 'package:range_type/src/bound/empty_bound.dart';
 
 typedef Parser<T> = T Function(String strT);
 

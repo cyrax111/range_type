@@ -6,16 +6,6 @@ enum BoundType {
   unbounded,
 }
 
-BoundType invertBoundType(BoundType type) {
-  if (type == BoundType.inclusive) {
-    return BoundType.exclusive;
-  }
-  if (type == BoundType.exclusive) {
-    return BoundType.inclusive;
-  }
-  return type;
-}
-
 class Bound<T> {
   const Bound({this.value, this.type = BoundType.inclusive})
       : assert(value != null &&
