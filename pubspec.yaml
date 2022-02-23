@@ -1,14 +1,10 @@
 name: range_type
 description: The convenient pure Dart library of ranges representation. Range types are data types representing a range of values of some element type.
 version: 0.0.2
-# homepage: https://www.example.com
+repository: https://github.com/cyrax111/range_type
 
 environment:
   sdk: '>=2.16.0 <3.0.0'
-
-
-# dependencies:
-#   path: ^1.8.0
 
 dev_dependencies:
   lints: ^1.0.0
