@@ -14,10 +14,16 @@ class ParseRangeException extends RangeException {
   ParseRangeException([dynamic message]) : super(message);
 }
 
+// TODO: maybe NeverRangeException
+class UnimplementedRangeException extends RangeException {
+  UnimplementedRangeException() : super('it was never meant to happen');
+}
+
 class OperationRangeException extends RangeException {
   OperationRangeException([dynamic message]) : super(message);
 }
 
-class UnimplementedRangeException extends RangeException {
-  UnimplementedRangeException() : super('it was never meant to happen');
+class ContiguousRangeException extends OperationRangeException {
+  ContiguousRangeException()
+      : super('result of range difference would not be contiguous');
 }

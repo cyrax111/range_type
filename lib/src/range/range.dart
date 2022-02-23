@@ -77,6 +77,9 @@ abstract class Range<T> {
   bool _isBoundsEqual(Bound<T> bound1, Bound<T> bound2) =>
       _compareBounds(bound1, bound2) == 0;
 
+  bool _isNotBoundsEqual(Bound<T> bound1, Bound<T> bound2) =>
+      !_isBoundsEqual(bound1, bound2);
+
   int _compareBounds(Bound<T> bound1, Bound<T> bound2) {
     assert(bound1 is! EmptyBound && bound2 is! EmptyBound);
     //TODO: remove comments here
@@ -269,59 +272,78 @@ abstract class Range<T> {
       return this;
     }
 
-    if (contains(range) || notEqual(range)) {
-      throw OperationRangeException(
-          'result of range difference would not be contiguous');
-    }
     if (range.contains(this)) {
       return _createEmptyRange();
     }
 
-    if (overlap(range)) {
-      final _lowerBound = _maxBound(lowerBound, range.lowerBound);
-      final _upperBound = _minBound(upperBound, range.upperBound);
+    if (contains(range)) {
+      if (_isNotBoundsEqual(lowerBound, range.lowerBound) &&
+          _isNotBoundsEqual(upperBound, range.upperBound)) {
+        throw ContiguousRangeException();
+      }
+
+      if (_isBoundsEqual(lowerBound, range.lowerBound)) {
+        final _lowerBound = range.upperBound.invert();
+        final _upperBound = upperBound;
+        return createRange(lowerBound: _lowerBound, upperBound: _upperBound);
+      }
+
+      if (_isBoundsEqual(upperBound, range.upperBound)) {
+        final _lowerBound = lowerBound;
+        final _upperBound = range.lowerBound.invert();
+        return createRange(lowerBound: _lowerBound, upperBound: _upperBound);
+      }
+    }
+
+    if (_compareBounds(upperBound, range.upperBound) >= 0) {
+      final _lowerBound = range.upperBound.invert();
+      final _upperBound = upperBound;
+      return createRange(lowerBound: _lowerBound, upperBound: _upperBound);
+    } else if (_compareBounds(range.lowerBound, lowerBound) >= 0) {
+      final _lowerBound = lowerBound;
+      final _upperBound = range.lowerBound.invert();
       return createRange(lowerBound: _lowerBound, upperBound: _upperBound);
     }
 
     // assert(false, 'non-existent range case');
-    throw OperationRangeException('non-existent range case');
+    throw UnimplementedRangeException();
   }
 
-  bool lessThan(Range<T> range) {
-    if (range.empty) {
-      return false;
-    } else if (empty) {
-      return true;
-    }
-    return _compareBounds(lowerBound, range.lowerBound) < 0;
-  }
+  // bool lessThan(Range<T> range) {
+  //   if (range.empty) {
+  //     return false;
+  //   } else if (empty) {
+  //     return true;
+  //   }
+  //   return _compareBounds(lowerBound, range.lowerBound) < 0;
+  // }
 
-  bool lessThanOrEqual(Range<T> range) {
-    if (range.empty) {
-      return false;
-    } else if (empty) {
-      return true;
-    }
-    return _compareBounds(lowerBound, range.lowerBound) <= 0;
-  }
+  // bool lessThanOrEqual(Range<T> range) {
+  //   if (range.empty) {
+  //     return false;
+  //   } else if (empty) {
+  //     return true;
+  //   }
+  //   return _compareBounds(lowerBound, range.lowerBound) <= 0;
+  // }
 
-  bool greaterThan(Range<T> range) {
-    if (empty) {
-      return false;
-    } else if (range.empty) {
-      return true;
-    }
-    return _compareBounds(lowerBound, range.lowerBound) > 0;
-  }
+  // bool greaterThan(Range<T> range) {
+  //   if (empty) {
+  //     return false;
+  //   } else if (range.empty) {
+  //     return true;
+  //   }
+  //   return _compareBounds(lowerBound, range.lowerBound) > 0;
+  // }
 
-  bool greaterThanOrEqual(Range<T> range) {
-    if (empty) {
-      return false;
-    } else if (range.empty) {
-      return true;
-    }
-    return _compareBounds(lowerBound, range.lowerBound) >= 0;
-  }
+  // bool greaterThanOrEqual(Range<T> range) {
+  //   if (empty) {
+  //     return false;
+  //   } else if (range.empty) {
+  //     return true;
+  //   }
+  //   return _compareBounds(lowerBound, range.lowerBound) >= 0;
+  // }
 
   bool strictlyLeftOf(Range<T> range) {
     if (empty || range.empty) {
