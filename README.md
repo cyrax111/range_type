@@ -1,8 +1,38 @@
 # Range package for Dart
 The convenient pure Dart library of ranges representation. Range types are data types representing a range of values of some element type.
 
-## Example
+### Examples
 
+##### Creation of a range
+```dart
+  // common way
+  var range = IntRange(
+    lowerBound: Bound(type: BoundType.inclusive, value: 1),
+    upperBound: Bound(type: BoundType.exclusive, value: 10),
+  );
+
+  // through parsing from a string
+  range = IntRange.parse('[1, 10)');
+
+  // through an extension
+  range = 1.range(10);
+```
+
+##### Checking for an element in the range
+```dart
+  var range = IntRange.parse('[1, 10)');
+
+  // common way
+  if(range.containsElement(7)) {
+    print('contains');
+  }
+
+  // through an extension
+  if(7.contained(range)) {
+    print('contains');
+  }
+```
+##### DateTime range
 ```dart
 import 'package:range_type/predefined_ranges.dart';
 
