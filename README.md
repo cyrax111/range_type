@@ -52,3 +52,7 @@ void main() {
   print('july difference workingDays: ${july.difference(workingDays)}');
 }
 ```
+
+### Ideas
+
+If you have any ideas on how to enhance this package or have any concern, feel free to make an [issue](https://github.com/cyrax111/avatar_stack/issues).

@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Enhanced readme.
+
 ## 0.0.5
 
 * Fixed sdk version.
