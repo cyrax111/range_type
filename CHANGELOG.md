@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Fixed a bug.
+
 ## 0.0.6
 
 * Enhanced readme.

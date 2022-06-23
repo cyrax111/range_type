@@ -1,7 +1,7 @@
 # Range package for Dart
 The convenient pure Dart library of ranges representation. Range types are data types representing a range of values of some element type.
 
-### Examples
+## Examples
 
 ##### Creation of a range
 ```dart
@@ -53,6 +53,6 @@ void main() {
 }
 ```
 
-### Ideas
+## Ideas
 
-If you have any ideas on how to enhance this package or have any concern, feel free to make an [issue](https://github.com/cyrax111/avatar_stack/issues).
+If you have any ideas on how to enhance this package or have any concern, feel free to make an [issue](https://github.com/cyrax111/range_type/issues).
