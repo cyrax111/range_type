@@ -196,9 +196,9 @@ abstract class Range<T> {
     }
 
     final hasNoOverlap = !overlap(range);
-    if (hasNoOverlap) {
-      throw OperationRangeException(
-          'result of range union would not be contiguous');
+    final isNotAdjacent = !isAdjacentTo(range);
+    if (hasNoOverlap && isNotAdjacent) {
+      throw OperationRangeException('result of range union would not be contiguous');
     }
 
     final _lowerBound = _minBound(lowerBound, range.lowerBound);
@@ -334,11 +334,13 @@ abstract class Range<T> {
 
     if (upperBound.isFinite &&
         range.lowerBound.isFinite &&
+        upperBound.type != range.lowerBound.type &&
         upperBound.value == range.lowerBound.value) {
       return true;
     }
     if (lowerBound.isFinite &&
         range.upperBound.isFinite &&
+        lowerBound.type != range.upperBound.type &&
         lowerBound.value == range.upperBound.value) {
       return true;
     }
