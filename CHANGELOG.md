@@ -1,3 +1,8 @@
+## 0.1.0
+
+* Fixed a bug.
+* Added tests.
+
 ## 0.0.7
 
 * Fixed a bug.
