@@ -1,4 +1,5 @@
 import 'package:range_type/predefined_ranges.dart';
+import 'package:range_type/src/range/exception.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -247,6 +248,53 @@ void main() {
           IntRange.parse('[5,100)').union(IntRange.parse('[0,120)')),
           IntRange.parse('[0,120)'),
         );
+      });
+
+      group('adjacent', () {
+        test('[2022-07-01, 2022-08-01) + [2022-08-01, 2022-09-01)', () {
+          final dateRange1 = DateTimeRange.parse('[2022-07-01, 2022-08-01)');
+          final dateRange2 = DateTimeRange.parse('[2022-08-01, 2022-09-01)');
+          expect(dateRange1.union(dateRange2), DateTimeRange.parse('[2022-07-01, 2022-09-01)'));
+        });
+
+        test('[2022-07-01, 2022-08-01) + (2022-08-01, 2022-09-01)', () {
+          final dateRange1 = DateTimeRange.parse('[2022-07-01, 2022-08-01)');
+          final dateRange2 = DateTimeRange.parse('(2022-08-01, 2022-09-01)');
+          expect(
+            () => dateRange1.union(dateRange2),
+            throwsA(isA<OperationRangeException>()),
+          );
+        });
+
+        test('[2022-07-01, 2022-08-01] + [2022-08-01, 2022-09-01)', () {
+          final dateRange1 = DateTimeRange.parse('(2022-07-01, 2022-08-01]');
+          final dateRange2 = DateTimeRange.parse('[2022-08-01, 2022-09-01)');
+          expect(
+            () => dateRange1.union(dateRange2),
+            throwsA(isA<OperationRangeException>()),
+          );
+        });
+
+        test('[5, 100) + [100, 120)', () {
+          expect(
+            IntRange.parse('[5, 100)').union(IntRange.parse('[100, 120)')),
+            IntRange.parse('[5, 120)'),
+          );
+        });
+
+        test('[5, 100) + (100, 120)', () {
+          expect(
+            () => IntRange.parse('[5, 100)').union(IntRange.parse('(100, 120)')),
+            throwsA(isA<OperationRangeException>()),
+          );
+        });
+
+        test('[5, 100] + [100, 120)', () {
+          expect(
+            IntRange.parse('[5, 100]').union(IntRange.parse('[100, 120)')),
+            IntRange.parse('[5,120)'),
+          );
+        });
       });
     });
   });
