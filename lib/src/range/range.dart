@@ -77,11 +77,9 @@ abstract class Range<T> {
     return isLowerBoundEqual && isUpperBoundEqual;
   }
 
-  bool _isBoundsEqual(Bound<T> bound1, Bound<T> bound2) =>
-      _compareBounds(bound1, bound2) == 0;
+  bool _isBoundsEqual(Bound<T> bound1, Bound<T> bound2) => _compareBounds(bound1, bound2) == 0;
 
-  bool _isNotBoundsEqual(Bound<T> bound1, Bound<T> bound2) =>
-      !_isBoundsEqual(bound1, bound2);
+  bool _isNotBoundsEqual(Bound<T> bound1, Bound<T> bound2) => !_isBoundsEqual(bound1, bound2);
 
   int _compareBounds(Bound<T> bound1, Bound<T> bound2) {
     assert(bound1 is! EmptyBound && bound2 is! EmptyBound);
@@ -151,8 +149,7 @@ abstract class Range<T> {
   }
 
   @override
-  int get hashCode =>
-      lowerBound.hashCode ^ upperBound.hashCode ^ empty.hashCode;
+  int get hashCode => lowerBound.hashCode ^ upperBound.hashCode ^ empty.hashCode;
 
   bool containsElement(T element) {
     if (empty) {
